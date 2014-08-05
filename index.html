@@ -1,0 +1,317 @@
+<!--
+The MIT License (MIT)
+
+Copyright (c) 2014 Xavier Hardy
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+-->
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<style type="text/css">
+
+body {margin:0 ; padding:0; font:Arial,Sans-serif;}
+
+#menu1, #menu2 , #menu3, #menu4 { 
+  width:172 ;
+  height:88px;
+  margin: 0;
+  padding: 0;
+  background: url(gfx/box.png) top left;
+}
+
+#titre1, #titre2, #titre3, #titre4 { 
+  display: none;
+  background:url(gfx/news.png) bottom left;
+  height:364px;
+}
+
+.news{
+	text-decoration:none;
+	font-weight: bold;
+	font-size: 14px;
+	width:100%;
+	color:white;
+}
+
+.imgnews{
+	border:3px solid white;
+	color:white;
+}
+
+#img1, #img2, #img3, #img4{
+	border:none;
+	border-bottom:3px solid white;
+	color:white;
+}
+
+.bloc{
+	width:872px;
+	position:relative;
+	top:10px;
+	left:10px;
+	background-color:black;
+	border:4px solid black;
+}
+
+.txttitre{
+	text-decoration:none;
+	margin-top: 12px;	
+	font-weight: bold;
+	font-size: 20px;
+	color:white;
+}
+
+.txt{
+	text-decoration:none;
+	font-size: 14px;
+	color:white;
+}
+</style>
+<script type="text/javascript">
+var imgOpac = 100;
+var img_on = true;
+var pas_op = 20;
+var menuOpac = new Array();
+menuOpac['menu1'] = 100;
+menuOpac['menu2'] = 50;
+menuOpac['menu3'] = 50;
+menuOpac['menu4'] = 50;
+var menu_on=1;
+var temps =50;
+
+function montre(id) {
+	document.getElementById(id).style.display="block";
+}
+
+function cache(id) {
+	document.getElementById(id).style.display="none";
+}
+
+function cache_all(){
+	var i;
+	for (i=1;i<5;i++) cache('titre'+i);
+}
+
+function changeOpac(id, opacite) {
+    var object = document.getElementById(id).style;
+    object.opacity = (opacite / 100);
+    object.MozOpacity = (opacite / 100);
+    object.KhtmlOpacity = (opacite / 100);
+    object.filter = "alpha(opacity=" + opacite + ")";
+}
+
+function changeOpac_all(opacite)
+{
+	var i;
+	for (i=1;i<5;i++) changeOpac('titre'+i,opacite);
+}
+
+function affiche(){
+	var i;
+	for (i=1;i<5;i++) 
+		{
+			if( menu_on == i)
+			{
+				if (menuOpac['menu'+i]<100)
+					{
+						menuOpac['menu'+i] += pas_op/2;
+						changeOpac('menu'+i,menuOpac['menu'+i]);
+					}
+			}
+			else 
+			{
+				if(menuOpac['menu'+i]>50)
+					{
+						menuOpac['menu'+i] -= pas_op/2;
+						changeOpac('menu'+i,menuOpac['menu'+i]);
+					}
+			}
+		}
+
+	if (img_on)
+		{
+		
+			if (imgOpac <100)
+			{
+				imgOpac += pas_op;
+				changeOpac_all(imgOpac);
+			}
+		}
+		else if (imgOpac > 0)
+			{
+				imgOpac -= pas_op;
+				changeOpac_all(imgOpac);
+			}
+			else	
+				{
+				img_on = true;
+				cache_all();
+				montre('titre'+menu_on);
+				}
+	window.setTimeout("affiche()",temps);
+}
+
+
+function afficheMenu(i) {
+if (i!= menu_on)
+{
+	menu_on = i;
+	img_on = false;
+}
+}
+
+function init()
+{
+	var i;
+	afficheMenu(1);
+	for (i=1;i<5;i++) {changeOpac('menu'+i,menuOpac['menu'+i]);}
+	montre('titre1');
+	affiche();
+}
+
+</script>
+</head>
+
+<body onLoad="init()">
+<div class="bloc">
+<table>
+	<tr>
+		<td>
+		<div id="menu1" onMouseOver="afficheMenu(1)" align="center">
+
+			<a href="#" id="news1" class="news" > <!-- Ici tu peux changer le lien1 (après href="lien1") [liennews1] --> 
+			Text 1
+			<!-- [titrenews1] -->
+			<br />
+			
+			<img align="center" src="gfx/img1.jpg" class="imgnews"/></a>
+		</div>
+		</td>
+		
+		<td rowspan="4">
+		
+		<div id="titre1">  
+			<a href="#"><!-- [liennews1] -->
+		    <img src="gfx/image1.jpg" id="img1"/>
+			<div align="center" class="txttitre">
+			Title 1 
+			<!-- [textBnews1] -->
+			</div>
+			
+			<div align="center" class="txt">
+			Longer Text 1
+			<!-- [textnews1] -->
+			</div>
+			</a>
+		</div>
+		
+		<div id="titre2">
+			<a href="#"><!-- [liennews2] -->
+		    <img src="gfx/image2.jpg" id="img2"/>
+			<div align="center" class="txttitre">
+			Title 2
+			<!-- [textBnews2] -->
+			</div>
+			
+			<div align="center" class="txt">
+			Longer Text 2
+			<!-- [textnews2] -->
+			</div>
+			</a>
+		 </div>
+
+		<div id="titre3">
+			<a href="#"><!-- [liennews3] -->
+		    <img src="gfx/image3.jpg" id="img3"/>
+			<div align="center" class="txttitre">
+			Title 3
+			<!-- [textBnews3] -->
+			</div>
+			
+			<div align="center" class="txt">
+			Longer Text 3
+			<!-- [textnews3] -->
+			</div>
+			</a>
+		</div>
+
+		<div id="titre4">
+			<a href="#"><!-- [liennews4] -->
+		    <img src="gfx/image4.jpg" id="img4"/>
+			<div align="center" class="txttitre">
+			Title 4
+			<!-- [textBnews4] -->
+			</div>
+			
+			<div align="center" class="txt">
+			Longer Text 4
+			<!-- [textnews4] -->
+			</div>
+			</a>
+		</div>
+		</td>	
+	</tr>
+
+<tr>
+	<td>
+		<div id="menu2" onMouseOver="afficheMenu(2)" align="center">
+
+			<a href="#" id="news2" class="news" ><!-- [liennews2] --> 
+			Text 2
+			<!-- [titrenews2] -->
+			<br />
+			
+			<img align="center" src="gfx/img2.jpg" class="imgnews"/></a>
+		</div>
+	</td>
+</tr>
+
+<tr>
+	<td>
+		<div id="menu3" onMouseOver="afficheMenu(3)" align="center">
+
+			<a href="#" id="news3" class="news" ><!-- [liennews3] -->
+			Text 3
+			<!-- [titrenews3] -->
+			<br />
+			
+			<img align="center" src="gfx/img3.jpg" class="imgnews"/></a>
+		</div>
+	</td>
+</tr>
+
+<tr>
+	<td>
+		<div id="menu4" onMouseOver="afficheMenu(4)" align="center">
+
+			<a href="#" id="news3" class="news"><!-- [liennews4] -->
+			Text 4
+			<!-- [titrenews4] -->
+			<br />
+			
+			<img align="center" src="gfx/img4.jpg" class="imgnews"/></a>
+		</div>
+	</td>
+</tr>
+
+</div>
+
+</body>
+</html>
